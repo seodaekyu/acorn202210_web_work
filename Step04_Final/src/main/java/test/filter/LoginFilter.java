@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
  * 1. javax.servlet.Filter 인터페이스를 구현한다.
  * 2. 어떤 요청에 필터링을 할 것인지 맵핑한다.
  */
-@WebFilter("/private/*")
+@WebFilter(urlPatterns = {"/private/*","/users/private/*"})
 public class LoginFilter implements Filter{
 
 	@Override

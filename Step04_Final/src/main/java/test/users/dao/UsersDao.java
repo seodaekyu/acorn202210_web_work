@@ -8,6 +8,7 @@ import test.users.dto.UsersDto;
 import test.util.DbcpBean;
 
 public class UsersDao {
+	
 	private static UsersDao dao;
 	//외부에서 객체 생성할 수 없도록
 	private UsersDao() {}
@@ -17,6 +18,54 @@ public class UsersDao {
 			dao=new UsersDao();
 		}
 		return dao;
+	}
+	
+	//인자로 전달된 id에 해당하는 가입정보를 리턴해주는 메소드
+	public UsersDto getData(String id) {
+		
+		UsersDto dto = null;
+		//필요한 객체를 담을 지역변수를 미리 만들어둔다.
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			//Connection Pool 에서 Connection 객체를 하나 얻어온다.
+			conn = new DbcpBean().getConn();
+			//실행할 sql 문의 뼈대 구성하기
+			String sql = "SELECT pwd, email, profile, TO_CHAR(regdate, 'YYYY.MM.DD') regdate"
+					+ " FROM users"
+					+ " WHERE id=?";
+
+			pstmt = conn.prepareStatement(sql);
+			//sql 문의 ? 에 바인딩 할게 있으면 한다.
+			pstmt.setString(1, id);
+			//SELECT 문을 수행하고 결과 값을 받아온다.
+			rs = pstmt.executeQuery();
+			// ResultSet 에서 필요한 값을 얻어낸다.
+			if (rs.next()) {
+				dto = new UsersDto();
+				dto.setId(id);
+				dto.setPwd(rs.getString("pwd"));
+				dto.setEmail(rs.getString("email"));
+				dto.setProfile(rs.getString("profile"));
+				dto.setRegdate(rs.getString("regdate"));
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close(); //Connection Pool 에 Connection 반납하기
+			} catch (Exception e) {
+			}
+		}
+		return dto;
 	}
 	
 	//인자로 전달되는 dto에 있는 id, pwd를 이용해서 해당 정보가 유효한지 여부를 리턴하는 메소드
