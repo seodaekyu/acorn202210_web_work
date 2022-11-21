@@ -33,7 +33,8 @@ public class UsersDao {
 			conn = new DbcpBean().getConn();
 			//실행할 sql 문의 뼈대 구성하기
 			String sql = "SELECT * FROM users"
-					+ " WHERE id=?, pwd=?";
+					+ " WHERE id=?"
+					+ " and pwd=?";
 
 			pstmt = conn.prepareStatement(sql);
 			//sql 문의 ? 에 바인딩 할게 있으면 한다.
