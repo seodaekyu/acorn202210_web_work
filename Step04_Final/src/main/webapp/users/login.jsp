@@ -11,7 +11,7 @@
 	String encodedUrl = URLEncoder.encode(url);
 
    // 1. 폼 전송되는 아이디, 비밀번호 읽어오기
-   request.setCharacterEncoding("utf-8");
+   
    String id = request.getParameter("id");
    String pwd = request.getParameter("pwd");
 
