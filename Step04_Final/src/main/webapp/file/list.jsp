@@ -6,6 +6,8 @@
 <%
 	//파일 목록을 얻어와서
 	List<FileDto> list = FileDao.getInstance().getList();
+	String id = (String)session.getAttribute("id");
+	
 	//응답하기
 %>
 <!DOCTYPE html>
@@ -27,6 +29,7 @@
 					<th>파일명</th>
 					<th>크기</th>
 					<th>등록일</th>
+					<th>삭제</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -40,6 +43,10 @@
 					</td>
 					<td><%=tmp.getFileSize() %></td>
 					<td><%=tmp.getRegdate() %></td>
+					<%if(tmp.getWriter().equals(id)) %>
+					<td>
+						<a href="delete.jsp?num=<%=tmp.getNum()%>">삭제</a>
+					</td>
 				</tr>
 			<%} %>
 			</tbody>
