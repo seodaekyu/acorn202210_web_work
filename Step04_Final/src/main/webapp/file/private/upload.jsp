@@ -52,6 +52,7 @@
 		<p>
 			<%=writer %> 님이 업로드 한 <%=orgFileName %> 파일을 저장했습니다.
 			<a href="${pageContext.request.contextPath }/file/list.jsp">목록보기</a>
+			<a href="${pageContext.request.contextPath }/file/private/upload_form.jsp">추가하기</a>
 		</p>
 		<p><%=realPath %></p>
 	<%}else{ %>
