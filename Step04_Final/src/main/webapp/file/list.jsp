@@ -4,10 +4,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	//파일 목록을 얻어와서
-	List<FileDto> list = FileDao.getInstance().getList();
+	//로그인된 아이디를 읽어온다.(로그인을 하지 않았으면 null 이다.)
 	String id = (String)session.getAttribute("id");
 	
+	//파일 목록을 얻어와서
+	List<FileDto> list = FileDao.getInstance().getList();
 	//응답하기
 %>
 <!DOCTYPE html>
@@ -43,14 +44,24 @@
 					</td>
 					<td><%=tmp.getFileSize() %></td>
 					<td><%=tmp.getRegdate() %></td>
-					<%if(tmp.getWriter().equals(id)) %>
 					<td>
-						<a href="delete.jsp?num=<%=tmp.getNum()%>">삭제</a>
+						<%-- 글 작성자가 로그인된 아이디와 같을때만 삭제 링크를 제공한다. --%>
+						<%if(tmp.getWriter().equals(id)){ %>
+						<a href="javascript:deleteConfirm(<%=tmp.getNum() %>)">삭제</a>
+						<%} %>
 					</td>
 				</tr>
 			<%} %>
 			</tbody>
 		</table>
 	</div>
+	<script>
+		function deleteConfirm(num){
+			let isDelete = confirm("삭제 하시겠습니까?");
+			if(isDelete){
+				location.href="delete.jsp?num="+num;
+			}
+		}
+	</script>
 </body>
 </html>
