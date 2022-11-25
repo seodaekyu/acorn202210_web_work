@@ -47,29 +47,14 @@
 				3. 개행 기호를 찾아서 <br> 로 대체하기
 			 --%>
 			<tr>
-				<td colspan="2">
-					<div><%=dto.getContent() %></div>
-				</td>
+				<th>내용</th>
+				<td><textarea rows="10" readonly><%=dto.getContent() %></textarea></td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td><pre><%=dto.getContent() %></pre></td>
 			</tr>
 		</table>
-		<%
-			//로그인된 아이디가 있으면 읽어온다.(null일 수도 있다.)
-			String id = (String)session.getAttribute("id");
-		%>
-		<%-- 만일 글 작성자가 로그인된 아이디와 같다면 수정, 삭제 링크를 제공한다. --%>
-        <%if(dto.getWriter().equals(id)){ %>
-	         <a href="private/updateform.jsp?num=<%=dto.getNum()%>">수정</a>
-	         <a href="javascript:" onclick="deleteConfirm()">삭제</a>
-	         <a href="list.jsp">글 목록보기</a>
-	         <script>
-	            function deleteConfirm(){
-	               const isDelete=confirm("이 글을 삭제 하겠습니까?");
-	               if(isDelete){
-	                  location.href="private/delete.jsp?num=<%=dto.getNum()%>";
-	               }
-	            }
-         	</script>
-      	<%} %>      
 	</div>
 </body>
 </html>
