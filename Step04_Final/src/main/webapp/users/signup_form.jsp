@@ -92,9 +92,6 @@
       document.querySelector("#id").addEventListener("input", function(){
          //input 요소의 참조 값을 self 에 미리 담아 놓기 
          const self = this;
-         //일단 2개의 클래스를 모두 제거 한다음 
-         self.classList.remove("is-valid");
-         self.classList.remove("is-invalid");
          
          //1. 입력한 아이디를 읽어와서
          const inputId = self.value;
@@ -105,7 +102,11 @@
             return response.json();
          })
          .then(function(data){
-            //3. 사용가능한지 여부에 따라 아이디 입력란에 is-valid or is-invalid 클래스를 적절히 추가, 제거를 한다.
+         //일단 2개의 클래스를 모두 제거 한다음 
+         self.classList.remove("is-valid");
+         self.classList.remove("is-invalid");
+            
+         	//3. 사용가능한지 여부에 따라 아이디 입력란에 is-valid or is-invalid 클래스를 적절히 추가, 제거를 한다.
             console.log(data);
             if(data.isExist){
                self.classList.add("is-invalid");
