@@ -7,6 +7,8 @@
 	int num = Integer.parseInt(request.getParameter("num"));
 	//DB 에서 해당 글의 정보를 얻어와서
 	CafeDto dto = CafeDao.getInstance().getData(num);
+	//글 조회수도 1 증가 시킨다.
+	CafeDao.getInstance().addViewCount(num);
 	//응답한다.
 %>
 <!DOCTYPE html>

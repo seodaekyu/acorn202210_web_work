@@ -31,6 +31,113 @@ public class CafeDao {
 		return dao;
 	}
 	
+	//글의 갯수를 리턴하는 메소드
+	public int getCount() {
+		int count = 0;
+		//필요한 객체를 담을 지역변수를 미리 만들어둔다.
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			//Connection Pool 에서 Connection 객체를 하나 얻어온다.
+			conn = new DbcpBean().getConn();
+			//실행할 sql 문의 뼈대 구성하기
+			String sql = "SELECT MAX(ROWNUM) AS num FROM board_cafe";
+
+			pstmt = conn.prepareStatement(sql);
+			//sql 문의 ? 에 바인딩 할게 있으면 한다.
+
+			//SELECT 문을 수행하고 결과 값을 받아온다.
+			rs = pstmt.executeQuery();
+			//반복문 돌면서 ResultSet 에서 필요한 값을 얻어낸다.
+			if (rs.next()) {
+				count = rs.getInt("num");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close(); //Connection Pool 에 Connection 반납하기
+			} catch (Exception e) {
+			}
+		}
+		return count;
+	}
+	
+	//글의 조회수를 올리는 메소드
+	public boolean addViewCount(int num) {
+		
+		//필요한 객체를 담을 지역변수를 미리 만들어 둔다.
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rowCount = 0;
+		try {
+			//Connection Pool에서 Connection 객체를 하나 얻어온다.
+			conn = new DbcpBean().getConn();
+			//실행할 sql문의 뼈대 구성하기
+			String sql = "UPDATE board_cafe"
+					+ " SET viewCount=viewCount+1"
+					+ " WHERE num=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			//sql문의 ?에 바인딩 할게 있으면 바인딩하기
+			pstmt.setInt(1, num);
+			
+			//INSERT or UPDATE or DELETE 문을 수행하고 추가된 row의 갯수 리턴받기
+			rowCount = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close(); //Connection Pool에 Connection 반납하기
+			} catch (Exception e) {}
+		}
+		return rowCount > 0 ? true : false;
+		}
+		
+		
+	
+	//글 하나를 삭제하는 메소드
+	public boolean delete(int num) {
+		//필요한 객체를 담을 지역변수를 미리 만들어 둔다.
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rowCount = 0;
+		try {
+			//Connection Pool에서 Connection 객체를 하나 얻어온다.
+			conn = new DbcpBean().getConn();
+			//실행할 sql문의 뼈대 구성하기
+			String sql = "DELETE FROM board_cafe"
+					+ " WHERE num=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			//sql문의 ?에 바인딩 할게 있으면 바인딩하기
+			pstmt.setInt(1, num);
+			
+			//INSERT or UPDATE or DELETE 문을 수행하고 추가된 row의 갯수 리턴받기
+			rowCount = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close(); //Connection Pool에 Connection 반납하기
+			} catch (Exception e) {}
+		}
+		return rowCount > 0 ? true : false;
+		}
+
+	
 	//글 하나의 정보를 수정하는 메소드
 	public boolean update(CafeDto dto) {
 		
@@ -153,7 +260,7 @@ public class CafeDao {
 		return rowCount > 0 ? true : false;
 		}
 				
-	   public List<CafeDto> getList(){
+	   public List<CafeDto> getList(CafeDto dto){
 		      
 		      List<CafeDto> list = new ArrayList<CafeDto>();
 		      
@@ -163,26 +270,32 @@ public class CafeDao {
 		      try {
 		         conn = new DbcpBean().getConn();
 		         //select 문의 뼈대 구성하기
-		         String sql = "SELECT num, writer, title, viewCount, regdate"
-		               + " FROM board_cafe"
-		               + " ORDER BY num DESC";
+		         String sql = "SELECT *"
+		         		+ "FROM"
+		         		+ "	(SELECT result1.*, ROWNUM AS rnum"
+		         		+ "	FROM"
+		         		+ "		(SELECT num, writer, title, viewCount, TO_CHAR(regdate, 'YYYY.MM.DD HH24:MI') AS regdate"
+		         		+ "		FROM board_cafe"
+		         		+ "		ORDER BY num DESC) result1)"
+		         		+ " WHERE rnum BETWEEN ? AND ?";
 		         pstmt = conn.prepareStatement(sql);
 		         //? 에 값 바인딩 할게 있으면 하기
-
+		         pstmt.setInt(1, dto.getStartRowNum());
+		         pstmt.setInt(2, dto.getEndRowNum());
 		         //sql 문 수행하고 ResultSet 객체 얻어내기
 		         rs = pstmt.executeQuery();
 		         while (rs.next()) {
 		            
 		        	 //select 된 row 하나의 정보를 CafeDto 객체를 생성해서 담고 
-		            CafeDto dto = new CafeDto();
-		            dto.setNum(rs.getInt("num"));
-		            dto.setWriter(rs.getString("writer"));
-		            dto.setTitle(rs.getString("title"));
-		            dto.setViewCount(rs.getInt("viewCount"));
-		            dto.setRegdate(rs.getString("regdate"));
+		            CafeDto tmp = new CafeDto();
+		            tmp.setNum(rs.getInt("num"));
+		            tmp.setWriter(rs.getString("writer"));
+		            tmp.setTitle(rs.getString("title"));
+		            tmp.setViewCount(rs.getInt("viewCount"));
+		            tmp.setRegdate(rs.getString("regdate"));
 		            
 		            //CafeDto 객체의 참조값을 List 에 누적 시키기
-		            list.add(dto);
+		            list.add(tmp);
 		         }
 
 		      } catch (Exception e) {
