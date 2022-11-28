@@ -31,8 +31,10 @@
 	</div>
 	<div class="container">	
 		<h1>인덱스 페이지입니다.</h1>
+		<img src="https://cdn.pixabay.com/photo/2017/11/14/13/06/kitty-2948404_960_720.jpg" alt="" style="margin-left: auto; margin-right: auto; display: block;"/>
 	</div>
-
+	
+	
 <%-- /include/footer.jsp 페이지를 포함 시켜서 이부분은 footer.jsp 페이지가 응답하도록 한다. --%>
 	<jsp:include page="/include/footer.jsp"></jsp:include>
 </body>

@@ -20,9 +20,6 @@
 	    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
 	    	<ul class="navbar-nav">
 	    		<li class="nav-item">
-	    			<a class="nav-link" href="${pageContext.request.contextPath }/users/signup_form.jsp">회원가입</a>
-	    		</li>
-	    		<li class="nav-item">
 	    			<a class="nav-link <%= thisPage.equals("member") ? "active" : "" %>" href="${pageContext.request.contextPath }/private/study.jsp">공부방</a>
 	    		</li>
 	    		<li class="nav-item">
@@ -37,12 +34,17 @@
 	    	</ul>
 	    	<ul class="navbar-nav">
 	    		<%if(id!=null){ %>
-			<p>
-				<a href="${pageContext.request.contextPath }/users/private/info.jsp"><%=id %></a> 님 로그인 중..
-				<a href="${pageContext.request.contextPath }/users/logout.jsp">로그아웃</a>
-			</p>
+					<p>
+						<a href="${pageContext.request.contextPath }/users/private/info.jsp"><%=id %></a> 님 로그인 중..
+						<a href="${pageContext.request.contextPath }/users/logout.jsp">로그아웃</a>
+					</p>
 				<%}else{ %>
-					<a href="${pageContext.request.contextPath }/users/loginform.jsp">로그인</a>
+		    		<li class="nav-item">
+		    			<a class="nav-link" href="${pageContext.request.contextPath }/users/signup_form.jsp">회원가입</a>
+		    		</li>
+					<li class="nav-item">
+						<a class="nav-link" href="${pageContext.request.contextPath }/users/loginform.jsp">로그인</a>
+					</li>
 				<%} %>
 	    	</ul>
 	    </div>
