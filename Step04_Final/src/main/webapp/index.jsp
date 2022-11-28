@@ -19,7 +19,7 @@
 		<jsp:param value="index" name="thisPage"/>
 	</jsp:include>
 	
-	<div class="container">
+	<div class="container visually-hidden">
 		<%if(id!=null){ %>
 			<p>
 				<a href="${pageContext.request.contextPath }/users/private/info.jsp"><%=id %></a> 님 로그인 중..
@@ -28,6 +28,8 @@
 		<%}else{ %>
 			<a href="${pageContext.request.contextPath }/users/loginform.jsp">로그인</a>
 		<%} %>
+	</div>
+	<div class="container">	
 		<h1>인덱스 페이지입니다.</h1>
 	</div>
 
