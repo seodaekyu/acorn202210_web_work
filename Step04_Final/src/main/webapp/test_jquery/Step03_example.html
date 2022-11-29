@@ -58,13 +58,15 @@
     $(".box").on("mousedown", function(){
         $(this)
         .css("width","120px")
-        .css("height","120px");
+        .css("height","120px")
+        .text("mousedown!");
     });
 
     $(".box").on("mouseup", function(){
         $(this)
         .css("width","100px")
-        .css("height","100px");
+        .css("height","100px")
+        .text("mouseup!");
     });
 
 </script>    

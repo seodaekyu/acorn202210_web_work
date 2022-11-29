@@ -23,12 +23,14 @@
 <script>
     //숨기기 버튼을 눌렀을때 div 를 숨겨 보세요.
     $("#hideBtn").on("click", function(){
-        //$(".box").hide();
-        //$(".box").hide(1000);
-        // $(".box").hide(1000, function(){
-        //     //1초후에 호출되는 함수
-        //     alert("뿅~");
-        // });
+        /*
+        $(".box").hide();
+        $(".box").hide(1000);
+        $(".box").hide(1000, function(){
+             //1초후에 호출되는 함수
+             alert("뿅~");
+        });
+        */
         $(".box").hide({
             duration: 1000,
             complete: function(){

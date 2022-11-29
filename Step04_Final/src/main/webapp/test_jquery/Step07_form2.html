@@ -32,21 +32,21 @@
     */
     $("#signupForm").on("submit", function(){
         //1. 이메일 주소를 입력했는지?
-        var email=$("#email").val();
+        const email=$("#email").val();
         if(email==""){
             alert("이메일 주소를 입력하세요.");
             $("#email").focus();//포커스 주기 
             return false; //폼전송 막기 
         }
         //2. 비밀번호를 입력했는지?
-        var pwd=$("#pwd").val();
+        const pwd=$("#pwd").val();
         if(pwd==""){
             alert("비밀번호를 입력하세요.");
             $("#pwd").focus();
             return false;
         }
         //3. 두 비밀번호가 일치 하는지?
-        var pwd2=$("#pwd2").val();
+        const pwd2=$("#pwd2").val();
         if(pwd != pwd2){
             alert("비밀번호를 확인하세요.");
             $("#pwd").focus();
