@@ -15,6 +15,7 @@
          <div>
             <label class="control-label" for="id">아이디</label>
             <input class="form-control" type="text" name="id" id="id"/>
+            <small class="form-text text-muted">영문자 소문자로 시작하고 5글자~10글자 이내로 입력하세요.</small>
             <div class="valid-feedback">사용 가능한 아이디 입니다.</div>
             <div class="invalid-feedback">사용할 수 없는 아이디 입니다.</div>
          </div>
@@ -22,6 +23,7 @@
          <div>
             <label class="control-label" for="pwd">비밀번호</label>
             <input class="form-control" type="password" name="pwd" id="pwd"/>
+            <small class="form-text text-muted">특수 문자를 하나 이상 조합하세요.</small>
             <div class="invalid-feedback">비밀 번호를 확인 하세요</div>
          </div>
          <div>
@@ -48,9 +50,9 @@
          this.classList.remove("is-valid");
          this.classList.remove("is-invalid");
          //입력한 이메일
-         const inputEmail=this.value;
-         //이메일을 검증할 정규 표현식  
-         const reg=/@/;
+         const inputEmail = this.value;
+         //이메일을 검증할 정규 표현식 (const reg = /@/; 기존 방법)
+         const reg=/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
          //만일 입력한 이메일이 정규표현식 검증을 통과 하지 못했다면
          if(!reg.test(inputEmail)){
             this.classList.add("is-invalid");
@@ -69,8 +71,17 @@
          const pwd=document.querySelector("#pwd").value;
          const pwd2=document.querySelector("#pwd2").value;
          
+   		 //비밀번호를 검증할 정규표현식
+         const reg = /[\W]+/;
+   		 //만일 정규표현식 검증을 통과하지 못했다면
+         if(!reg.test(pwd)){
+        	 document.querySelector("#pwd").classList.add("is-invalid");
+        	 isPwdValid = false;
+        	 return; //함수를 여기서 끝낸다.
+         }
+   		 
          //만일 비밀번호 입력란과 확인란이 다르다면
-         if(pwd != pwd2){
+       	 if(pwd != pwd2){
             document.querySelector("#pwd").classList.add("is-invalid");
             isPwdValid = false;
          }else{//같다면
@@ -92,9 +103,23 @@
       document.querySelector("#id").addEventListener("input", function(){
          //input 요소의 참조 값을 self 에 미리 담아 놓기 
          const self = this;
+         //일단 2개의 클래스를 모두 제거 한다음 
+         self.classList.remove("is-valid");
+         self.classList.remove("is-invalid");
          
          //1. 입력한 아이디를 읽어와서
          const inputId = self.value;
+         
+   		 //아이디 검증할 정규표현식
+         const reg = /^[a-z].{4,9}$/;
+         //입력한 아이디가 정규표현식과 매칭이 되는지 (통과 되는지) 확인한다.
+         const isMatch = reg.test(inputId)
+         //만일 매칭되지 않는다면
+         if(!isMatch){
+        	 self.classList.add("is-invalid");
+        	 isIdValid = false;
+        	 return; //함수를 여기서 끝내기
+         }
          
          //2. 서버에 페이지 전환없이 전송을 하고 응답을 받는다.
          fetch("checkid.jsp?inputId="+inputId)
@@ -102,10 +127,6 @@
             return response.json();
          })
          .then(function(data){
-         //일단 2개의 클래스를 모두 제거 한다음 
-         self.classList.remove("is-valid");
-         self.classList.remove("is-invalid");
-            
          	//3. 사용가능한지 여부에 따라 아이디 입력란에 is-valid or is-invalid 클래스를 적절히 추가, 제거를 한다.
             console.log(data);
             if(data.isExist){

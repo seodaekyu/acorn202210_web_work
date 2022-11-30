@@ -34,7 +34,7 @@
 
     //버튼을 클릭하면 입력한 문자열을 li 요소로 출력하기 
     $("#sendBtn").click(function(){
-        var msg=$("#inputMsg").val();
+        const msg=$("#inputMsg").val();
         $("<li/>")
         .text(msg)
         .appendTo("#msgList");

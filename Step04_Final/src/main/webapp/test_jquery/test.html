@@ -10,31 +10,31 @@
 <canvas id="myCanvas" width="800" height="500"></canvas>
 <script src="js/jquery-3.4.1.js"></script>
 <script>
-    var canvas=document.querySelector("#myCanvas");
-    var context=canvas.getContext("2d");
+    const canvas=document.querySelector("#myCanvas");
+    const context=canvas.getContext("2d");
 
     //플레이어 이미지 객체를 저장할 배열
-    var playerImgs=[];
-    for(var i=40; i<=51; i++){
+    const playerImgs=[];
+    for(const i=40; i<=51; i++){
         //이미지 로딩해서 
-        var tmp=new Image();
+        const tmp=new Image();
         tmp.src="images/BODY_animation_"+i+".gif";
         //배열에 참조값을 저장하기 
         playerImgs.push(tmp);
     }
 
-    var playerIndex=0;
+    const playerIndex=0;
 
     //배경이미지
-    var backImg=new Image();
+    const backImg=new Image();
     backImg.src="images/background.jpg";
 
     setInterval(draw, 10);
 
     //카운트를 셀 변수
-    var count=0;
+    const count=0;
     //플레이어의 상태값을 관리할 변수 
-    var isAttack=false; //공격중인지 여부 
+    const isAttack=false; //공격중인지 여부 
 
     function draw(){
         //카운트 증가 시키기 

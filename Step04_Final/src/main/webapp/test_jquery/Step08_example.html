@@ -23,18 +23,18 @@
         아이디 : 영문자로 시작, 특수문자 허용하지 않음, 최소 5글자, 최대 10글자
         비밀번호 : 특수문자 1개 , 대문자 1개 반드시 포함, 8글자 이상  
 
-        [a-zA-Z0-9] => [/w]
-        [^a-zA-Z0-9] => [/W]
+        [a-zA-Z0-9] => [\w]
+        [^a-zA-Z0-9] => [\W]
     */
 
-    var idReg=/^[a-zA-Z][a-zA-Z0-9]{4,9}$/;
+    const idReg = /^[a-zA-Z][a-zA-Z0-9]{4,9}$/;
 
-    var pwdReg1=/[/W]+/;  //특수문자 포함 여부를 검증할 정규식
-    var pwdReg2=/[A-Z]+/; //영문자 대문자 포함여부를 검증할 정규식
-    var pwdReg3=/^.{8,}$/; //최소 8글자 이상인지 여부를 검증할 정규식 
+    const pwdReg1 = /[\W]+/;  //특수문자 포함 여부를 검증할 정규식
+    const pwdReg2 = /[A-Z]+/; //영문자 대문자 포함여부를 검증할 정규식
+    const pwdReg3 = /^.{8,}$/; //최소 8글자 이상인지 여부를 검증할 정규식 
 
     //핸드폰 번호를 검증할 정규표현식 
-    var phoneReg=/^01[016789]-[0-9]{3,4}-[0-9]{4}$/;
+    const phoneReg = /^01[016789]-[0-9]{3,4}-[0-9]{4}$/;
 
     /*
         폼에 회원가입 정보를 입력하고 가입 버튼을 눌렀을때 위의 정규표현식
@@ -43,14 +43,14 @@
     */
     $("#signupForm").on("submit", function(){
         //입력한 아이디
-        var id=$("#id").val();
+        const id = $("#id").val();
         if(!idReg.test(id)){
             alert("아이디를 영문자로 시작, \
             특수문자 허용하지 않음, 최소 5글자, 최대 10글자, 입력하세요!");
             return false; //폼 전송 막기 
         }
         //입력한 비밀번호
-        var pwd=$("#pwd").val();
+        const pwd = $("#pwd").val();
         if(!pwdReg1.test(pwd)){
             alert("비밀번호에 특수문자를 1개이상 포함 시키세요");
             return false;
@@ -64,7 +64,7 @@
             return false;
         }
         //입력한 전화번호
-        var phone=$("#phone").val();
+        const phone=$("#phone").val();
         if(!phoneReg.test(phone)){
             alert("전화번호를 형식에 맞게 입력하세요.");
             return false;

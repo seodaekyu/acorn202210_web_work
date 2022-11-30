@@ -20,18 +20,18 @@
 </div>
 <script src="js/jquery-3.4.1.js"></script>
 <script>
-    var msgs=["하나", "두울", "세엣"];
+    const msgs=["하나", "두울", "세엣"];
 
-    for(var i=0; i<msgs.length; i++){
+    for(const i=0; i<msgs.length; i++){
         $("<li/>").text(msgs[i]).appendTo("#msgList");
     }
 
-    var imgs=["images/image1.png",
+    const imgs=["images/image1.png",
     "images/image2.png","images/image3.png"];
 
     //배열에 있는 내용을 이용해서 img 요소를 만들어서
     // #imgPanel 에 추가 해보세요.
-    for(var i=0; i<imgs.length; i++){
+    for(const i=0; i<imgs.length; i++){
         $("<img/>")
         .attr("src", imgs[i])
         .addClass("my-image")

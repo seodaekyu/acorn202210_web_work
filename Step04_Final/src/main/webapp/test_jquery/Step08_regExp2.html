@@ -13,14 +13,15 @@
 </ul>
 <script src="js/jquery-3.4.1.js"></script>
 <script>
-    var str="My name is kimgura!";
+    const str = "My name is kimgura!";
+    
     //공백이 아닌 연속된 문자열을 찾아내는 정규표현식 객체
-    var reg=/[^ ]+/g;
+    const reg = /[^ ]+/g; //여기서 g는 global 의 의미 (All Matching)
 
     $("#extractBtn").click(function(){
         while(true){
             //정규표현식에 매칭되는 문자열을 얻어낸다.
-            var result=reg.exec(str);
+            const result = reg.exec(str);
             //매칭되는 문자열이 더이상 없으면 null 을 리턴한다.
             if(result==null)break;
             //li 요소를 동적으로 만들어서 text 출력하고 ul 에 추가

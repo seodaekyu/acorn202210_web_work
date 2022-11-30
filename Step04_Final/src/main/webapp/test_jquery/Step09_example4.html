@@ -40,11 +40,11 @@
     $(window).on("scroll", function(){
         console.log("scroll!");
         //위쪽으로 스트롤된 길이
-        var scrollTop=$(window).scrollTop();
+        const scrollTop=$(window).scrollTop();
         //window 의 높이
-        var windowHeight=$(window).height();
+        const windowHeight=$(window).height();
         //document 의 높이
-        var documentHeight=$(document).height();
+        const documentHeight=$(document).height();
 
 		//출력해 보기 
 		$("#sTop").text("scrollTop:"+scrollTop);
@@ -52,7 +52,7 @@
 		$("#dHeight").text("documentHeight:"+documentHeight);
 
         //바닥까지 스크롤했는지 여부
-        var isBottom = scrollTop+windowHeight == documentHeight;
+        const isBottom = scrollTop+windowHeight == documentHeight;
 
         if(isBottom){
             $("<div/>")

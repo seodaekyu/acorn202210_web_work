@@ -37,7 +37,7 @@
         console.log(event);
         if(event.keyCode == 13){//만일 엔터키를 눌렀다면 
             //아이디가 inputMsg 인 곳에 입력한 value 값을 읽어와서 
-            var msg=$("#inputMsg").val();
+            const msg=$("#inputMsg").val();
             //아이디가 result 인 요소의 innerText 로 넣어주기 
             $("#result").text(msg);
             $("#inputMsg").val("");
