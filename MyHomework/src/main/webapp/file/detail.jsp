@@ -1,17 +1,17 @@
-<%@page import="test.daily.dao.DailyDao"%>
-<%@page import="test.daily.dto.DailyDto"%>
+<%@page import="test.file.dao.FileDao"%>
+<%@page import="test.file.dto.FileDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 	int num = Integer.parseInt(request.getParameter("num"));
-	DailyDto dto = DailyDao.getInstance().getData(num);
-	DailyDao.getInstance().addViewCount(num);
+	FileDto dto = FileDao.getInstance().getData(num);
+	FileDao.getInstance().addViewCount(num);
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/daily/detail.jsp</title>
+<title>/file/detail.jsp</title>
 </head>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
@@ -26,11 +26,11 @@
 		<h3>글 상세 보기</h3>
 		<table>
 			<tr>
-				<th>글번호</th>
+				<th>번호</th>
 				<td><%=dto.getNum() %></td>
 			</tr>
 			<tr>
-				<th>작성자</th>
+				<th>글쓴이</th>
 				<td><%=dto.getWriter() %></td>
 			</tr>
 			<tr>
@@ -52,13 +52,8 @@
 				2. <pre></pre> 요소 안에 출력하기
 				3. 개행 기호를 찾아서 <br> 로 대체하기
 			 --%>
-			<tr>
-				<td colspan="2">
-					<div><%=dto.getContent() %></div>
-				</td>
-			</tr>
+			
 		</table>
-		<button type="button" onclick="location.href='private/like.jsp'">추천</button>
 		<%
 			//로그인된 아이디가 있으면 읽어온다.(null일 수도 있다.)
 			String id = (String)session.getAttribute("id");
@@ -67,17 +62,16 @@
         <%if(dto.getWriter().equals(id)){ %>
 	         <a href="private/updateform.jsp?num=<%=dto.getNum()%>">수정</a>
 	         <a href="javascript:" onclick="deleteConfirm()">삭제</a>
-	         <a href="list.jsp">글 목록보기</a>
+	         <a href="list.jsp">목록보기</a>
 	         <script>
 	            function deleteConfirm(){
 	               const isDelete=confirm("이 글을 삭제 하겠습니까?");
 	               if(isDelete){
-	                  location.href="private/delete.jsp?num=<%=dto.getNum()%>";
+	                  location.href="delete.jsp?num=<%=dto.getNum()%>";
 	               }
 	            }
          	</script>
-      	<%} %>      
-	</div>
+      	<%} %>
 	
 	<%-- /include/footer.jsp 페이지를 포함 시켜서 이부분은 footer.jsp 페이지가 응답하도록 한다. --%>
 	<jsp:include page="/include/footer.jsp"></jsp:include>
